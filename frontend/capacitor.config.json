@@ -1,9 +1,0 @@
-{
-  "appId": "in.gov.legalmetrology",
-  "appName": "Legal Metrology",
-  "webDir": "dist",
-  "server": {
-    "androidScheme": "https",
-    "cleartext": true
-  }
-}
