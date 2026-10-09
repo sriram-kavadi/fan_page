@@ -1,4 +1,4 @@
-# Srekar's Association ❤️ — Official Fan Engagement & Community Mobile Application
+# Nikhil's Association ❤️ — Official Fan Engagement & Community Mobile Application
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart&logoColor=white)](https://dart.dev)
@@ -6,7 +6,7 @@
 [![Platform Support](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Desktop-4CAF50)](https://flutter.dev/multi-platform)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-An official, cross-platform community application built using **Flutter & Material 3** for **Srekar's Fan Association**. The application bridges the gap between the association leadership and thousands of devoted fans across multiple cities and districts, providing real-time event updates, digital membership ID cards, interactive fan walls, opinion polls, media galleries, and an administrative control center.
+An official, cross-platform community application built using **Flutter & Material 3** for **Nikhil's Fan Association**. The application bridges the gap between the association leadership and thousands of devoted fans across multiple cities and districts, providing real-time event updates, digital membership ID cards, interactive fan walls, opinion polls, media galleries, and an administrative control center.
 
 ---
 
@@ -50,7 +50,7 @@ An official, cross-platform community application built using **Flutter & Materi
 
 ```
 ┌────────────────────────────────┐  ┌────────────────────────────────┐  ┌────────────────────────────────┐
-│      Srekar's Association ❤️   │  │        Updates & News 📰       │  │        Fans Community 💬        │
+│      Nikhil's Association ❤️   │  │        Updates & News 📰       │  │        Fans Community 💬        │
 │  [Verified Official Badge]     │  │  [🔍 Search announcements...]  │  │  [Community]    [Leadership]   │
 │                                │  │                                │  │                                │
 │ ┌─────┐  ┌─────┐  ┌─────┐      │  │ [All] [Announcements] [News]   │  │ 📊 Active Polls:               │
@@ -59,7 +59,7 @@ An official, cross-platform community application built using **Flutter & Materi
 │ └─────┘  └─────┘  └─────┘      │  │ Official schedule for state    │  │                                │
 │                                │  │ convention and charity drive   │  │ ❤️ Fan Wall Feed:              │
 │ 📢 Pinned Announcement         │  │                                │  │ Ramesh Reddy (Hyderabad)       │
-│ Srekar's Grand State Meet      │  │ 🎟️ Fan Meet Passes Released    │  │ "Proud to be part of Srekar's  │
+│ Nikhil's Grand State Meet      │  │ 🎟️ Fan Meet Passes Released    │  │ "Proud to be part of Nikhil's  │
 │                                │  │ Registration passes live now!  │  │  Association! Long live! 🔥"   │
 │ 🎟️ Upcoming: Fan Meet 2026    │  │                                │  │                                │
 │ Shilpakala Vedika • Oct 18     │  │ 🩸 Blood Donation Camp         │  │ ┌────────────────────────────┐ │
@@ -313,6 +313,6 @@ This project is open-source and distributed under the [MIT License](LICENSE).
 ---
 
 <p align="center">
-  <b>Built with ❤️ for Srekar's Fan Association</b><br/>
+  <b>Built with ❤️ for Nikhil's Fan Association</b><br/>
   <i>Connecting fans, celebrating unity, and powering community welfare.</i>
 </p>
