@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../models/studio_models.dart';
 
 /// Renders a single sticker preview based on shape + gradient + emoji

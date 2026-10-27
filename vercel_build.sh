@@ -17,14 +17,15 @@ else
   cd flutter && git pull && cd ..
 fi
 
-# 2. Add Flutter to PATH
+# 3. Add Flutter to PATH & configure CI environment
 export PATH="$PATH:$(pwd)/flutter/bin"
+export FLUTTER_SUPPRESS_ANALYTICS=true
 
 echo "🔧 Flutter Version Info:"
 flutter --version
 
 echo "⚙️ Enabling web support..."
-flutter config --enable-web
+flutter config --enable-web --no-analytics
 
 echo "📥 Getting dependencies..."
 flutter pub get

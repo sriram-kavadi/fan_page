@@ -307,7 +307,7 @@ class _ToolButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = enabled
         ? (isDestructive ? StudioTheme.accent : StudioTheme.primary)
-        : (isDark ? Colors.white20 : Colors.black20);
+        : (isDark ? Colors.white24 : Colors.black26);
 
     return Tooltip(
       message: tooltip,
