@@ -1,13 +1,14 @@
 {
-    "name": "flutter_lab",
-    "short_name": "flutter_lab",
+    "name": "Nikhil's Fantasy Studio",
+    "short_name": "Fantasy Studio",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0A0E1A",
+    "theme_color": "#0A84FF",
+    "description": "Nikhil's Fantasy Studio - Create stunning sticker art with 30+ premium templates and interactive canvas editor.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "categories": ["design", "art", "productivity"],
     "icons": [
         {
             "src": "icons/Icon-192.png",

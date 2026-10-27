@@ -1,46 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nikhil's Fantasy Studio - Create stunning sticker art with 30+ premium templates, interactive canvas editor, themed packs, and beautiful design tools.">
+  <meta name="keywords" content="sticker creator, digital art, sticker studio, fantasy stickers, design studio">
+  <meta name="author" content="Nikhil's Fantasy Studio">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nikhil's Fantasy Studio">
+  <meta property="og:description" content="Premium sticker art creation studio with 30+ templates and 5 themed packs.">
+  <meta property="og:type" content="website">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="flutter_lab">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fantasy Studio">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>flutter_lab</title>
+  <title>Nikhil's Fantasy Studio | Create · Design · Inspire</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(135deg, #0A0E1A 0%, #0D1E3D 50%, #0A0E1A 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    .loading-wrap {
+      text-align: center;
+      user-select: none;
+    }
+
+    .logo-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #0A84FF, #0060D0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 36px;
+      box-shadow: 0 8px 32px rgba(10,132,255,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(10,132,255,0.4); }
+      50% { transform: scale(1.04); box-shadow: 0 12px 40px rgba(10,132,255,0.6); }
+    }
+
+    .loading-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .loading-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 32px;
+    }
+
+    .spinner-ring {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(10,132,255,0.15);
+      border-top: 3px solid #0A84FF;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .tagline {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <div class="loading-wrap" id="app-loading">
+    <div class="logo-box">✦</div>
+    <div class="loading-title">Nikhil's Fantasy Studio</div>
+    <div class="loading-sub">Create · Design · Inspire</div>
+    <div class="spinner-ring"></div>
+    <div class="tagline">Loading Studio…</div>
+  </div>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

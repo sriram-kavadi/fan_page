@@ -1,95 +1,121 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
+import 'providers/theme_provider.dart';
+import 'providers/studio_provider.dart';
 import 'screens/home_screen.dart';
-import 'screens/updates_screen.dart';
-import 'screens/gallery_screen.dart';
-import 'screens/fans_screen.dart';
-import 'screens/profile_screen.dart';
+import 'screens/template_library_screen.dart';
+import 'screens/canvas_screen.dart';
+import 'screens/my_designs_screen.dart';
+import 'screens/packs_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const FanAssociationApp());
+  runApp(const FantasyStudioApp());
 }
 
-class FanAssociationApp extends StatelessWidget {
-  const FanAssociationApp({super.key});
+class FantasyStudioApp extends StatelessWidget {
+  const FantasyStudioApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Srekar's Association",
-      theme: AppTheme.lightTheme,
-      home: const MainNavigationScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => StudioProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "Nikhil's Fantasy Studio",
+            theme: StudioTheme.lightTheme,
+            darkTheme: StudioTheme.darkTheme,
+            themeMode: themeProvider.isDark ? ThemeMode.dark : ThemeMode.light,
+            home: const MainShell(),
+          );
+        },
+      ),
     );
   }
 }
 
-class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+class MainShell extends StatefulWidget {
+  const MainShell({super.key});
 
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  State<MainShell> createState() => _MainShellState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
 
-  void _navigateToTab(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+  void navigateTo(int index) {
+    setState(() => _currentIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [
-      HomeScreen(
-        onNavigateToUpdates: () => _navigateToTab(1),
-        onNavigateToGallery: () => _navigateToTab(2),
-        onNavigateToFans: () => _navigateToTab(3),
-      ),
-      const UpdatesScreen(),
-      const GalleryScreen(),
-      const FansScreen(),
-      const ProfileScreen(),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final pages = [
+      HomeScreen(onNavigate: navigateTo),
+      const TemplateLibraryScreen(),
+      const CanvasScreen(),
+      const MyDesignsScreen(),
+      const PacksScreen(),
     ];
 
     return Scaffold(
+      backgroundColor: isDark
+          ? StudioTheme.bgDark
+          : StudioTheme.bgLight,
       body: IndexedStack(
         index: _currentIndex,
         children: pages,
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: _navigateToTab,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded, color: AppTheme.primaryColor),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.newspaper_outlined),
-            selectedIcon: Icon(Icons.newspaper_rounded, color: AppTheme.primaryColor),
-            label: 'Updates',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.photo_library_outlined),
-            selectedIcon: Icon(Icons.photo_library_rounded, color: AppTheme.primaryColor),
-            label: 'Gallery',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.favorite_border_rounded),
-            selectedIcon: Icon(Icons.favorite_rounded, color: AppTheme.accentHeart),
-            label: 'Fans',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline_rounded),
-            selectedIcon: Icon(Icons.person_rounded, color: AppTheme.primaryColor),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        child: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: navigateTo,
+          height: 68,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home_rounded),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.auto_awesome_outlined),
+              selectedIcon: Icon(Icons.auto_awesome),
+              label: 'Templates',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.edit_outlined),
+              selectedIcon: Icon(Icons.edit),
+              label: 'Studio',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.folder_outlined),
+              selectedIcon: Icon(Icons.folder_rounded),
+              label: 'My Work',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.inventory_2_outlined),
+              selectedIcon: Icon(Icons.inventory_2),
+              label: 'Packs',
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,116 +1,184 @@
 import 'package:flutter/material.dart';
 
-class AppTheme {
-  // Brand colors
-  static const Color primaryColor = Color(0xFF673AB7); // Deep Purple
-  static const Color primaryLight = Color(0xFF9575CD);
-  static const Color primaryDark = Color(0xFF4527A0);
-  static const Color accentHeart = Color(0xFFE91E63); // Crimson Pink / Heart
-  static const Color accentGold = Color(0xFFFFB300);
-  static const Color bgLight = Color(0xFFF8F7FC);
-  static const Color surfaceLight = Colors.white;
+/// Nikhil's Fantasy Studio - Brand Color System
+class StudioTheme {
+  // === PRIMARY BRAND PALETTE ===
+  static const Color primary = Color(0xFF0A84FF);        // Electric Blue
+  static const Color primaryLight = Color(0xFF40A0FF);
+  static const Color primaryDark = Color(0xFF0060D0);
+  static const Color secondary = Color(0xFF00C896);      // Mint Green
+  static const Color secondaryLight = Color(0xFF33DDAA);
+  static const Color accent = Color(0xFFFF6B6B);         // Coral Red
+  static const Color accentGold = Color(0xFFFFD700);     // Gold Star
+  static const Color purple = Color(0xFF9B59B6);         // Creative Purple
+  static const Color teal = Color(0xFF00BCD4);
 
-  static ThemeData get lightTheme {
+  // === BACKGROUNDS ===
+  static const Color bgDark = Color(0xFF0A0E1A);         // Deep navy
+  static const Color bgDark2 = Color(0xFF111827);
+  static const Color surfaceDark = Color(0xFF1A2035);
+  static const Color cardDark = Color(0xFF1E2640);
+  static const Color bgLight = Color(0xFFF0F4FF);        // Soft lavender white
+  static const Color surfaceLight = Color(0xFFFFFFFF);
+  static const Color cardLight = Color(0xFFF8FAFF);
+
+  // === GRADIENTS ===
+  static const LinearGradient heroGradient = LinearGradient(
+    colors: [Color(0xFF0A1628), Color(0xFF0D2548), Color(0xFF0A1628)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static const LinearGradient primaryGradient = LinearGradient(
+    colors: [Color(0xFF0A84FF), Color(0xFF0060D0)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static const LinearGradient accentGradient = LinearGradient(
+    colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static const LinearGradient mintGradient = LinearGradient(
+    colors: [Color(0xFF00C896), Color(0xFF00BCD4)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static const LinearGradient purpleGradient = LinearGradient(
+    colors: [Color(0xFF9B59B6), Color(0xFF6C3483)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static ThemeData get lightTheme => _buildTheme(Brightness.light);
+  static ThemeData get darkTheme => _buildTheme(Brightness.dark);
+
+  static ThemeData _buildTheme(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+
     return ThemeData(
       useMaterial3: true,
+      brightness: brightness,
+      fontFamily: 'Outfit',
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        primary: primaryColor,
-        secondary: accentHeart,
-        surface: surfaceLight,
-        brightness: Brightness.light,
+        seedColor: primary,
+        primary: primary,
+        secondary: secondary,
+        surface: isDark ? surfaceDark : surfaceLight,
+        brightness: brightness,
       ),
-      scaffoldBackgroundColor: bgLight,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
+      scaffoldBackgroundColor: isDark ? bgDark : bgLight,
+      cardTheme: CardThemeData(
         elevation: 0,
-        scrolledUnderElevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        color: isDark ? cardDark : cardLight,
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-          color: Color(0xFF1E1B2E),
+          fontFamily: 'Outfit',
+          color: isDark ? Colors.white : const Color(0xFF0A0E1A),
           fontSize: 20,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w700,
         ),
-        iconTheme: IconThemeData(color: primaryDark),
-      ),
-      cardTheme: CardThemeData(
-        elevation: 2,
-        shadowColor: primaryColor.withValues(alpha: 0.08),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+        iconTheme: IconThemeData(
+          color: isDark ? Colors.white : const Color(0xFF0A0E1A),
         ),
-        color: Colors.white,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
+          backgroundColor: primary,
           foregroundColor: Colors.white,
-          elevation: 2,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           textStyle: const TextStyle(
+            fontFamily: 'Outfit',
             fontSize: 15,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: primaryColor,
-          side: const BorderSide(color: primaryColor, width: 1.5),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          foregroundColor: primary,
+          side: const BorderSide(color: primary, width: 1.5),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        fillColor: isDark ? const Color(0xFF1A2035) : const Color(0xFFF0F4FF),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide(
+            color: isDark ? Colors.white12 : Colors.black12,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
+          borderSide: const BorderSide(color: primary, width: 2),
+        ),
+        hintStyle: TextStyle(
+          color: isDark ? Colors.white38 : Colors.black38,
+          fontFamily: 'Outfit',
+        ),
+        labelStyle: TextStyle(
+          color: isDark ? Colors.white60 : Colors.black54,
+          fontFamily: 'Outfit',
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: Colors.white,
+        backgroundColor: isDark
+            ? const Color(0xFF111827).withValues(alpha: 0.95)
+            : Colors.white.withValues(alpha: 0.95),
         elevation: 8,
-        indicatorColor: primaryColor.withValues(alpha: 0.15),
+        indicatorColor: primary.withValues(alpha: 0.15),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return const TextStyle(
+              fontFamily: 'Outfit',
               fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: primaryColor,
+              fontWeight: FontWeight.w600,
+              color: primary,
             );
           }
           return TextStyle(
+            fontFamily: 'Outfit',
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: Colors.grey.shade600,
+            color: isDark ? Colors.white38 : Colors.black38,
           );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const IconThemeData(color: primaryColor, size: 24);
+            return const IconThemeData(color: primary, size: 24);
           }
-          return IconThemeData(color: Colors.grey.shade600, size: 22);
+          return IconThemeData(
+            color: isDark ? Colors.white38 : Colors.black38,
+            size: 22,
+          );
         }),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: isDark ? const Color(0xFF1E2640) : const Color(0xFFECF3FF),
+        selectedColor: primary.withValues(alpha: 0.2),
+        labelStyle: TextStyle(
+          fontFamily: 'Outfit',
+          color: isDark ? Colors.white70 : const Color(0xFF0A0E1A),
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        side: BorderSide.none,
       ),
     );
   }
