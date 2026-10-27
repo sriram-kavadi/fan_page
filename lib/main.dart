@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'providers/theme_provider.dart';
-import 'providers/studio_provider.dart';
+import 'providers/fan_provider.dart';
 import 'screens/home_screen.dart';
-import 'screens/template_library_screen.dart';
-import 'screens/canvas_screen.dart';
-import 'screens/my_designs_screen.dart';
-import 'screens/packs_screen.dart';
+import 'screens/fan_id_screen.dart';
+import 'screens/community_screen.dart';
+import 'screens/events_screen.dart';
+import 'screens/journey_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const FantasyStudioApp());
+  runApp(const RathnaveriKavithaFanApp());
 }
 
-class FantasyStudioApp extends StatelessWidget {
-  const FantasyStudioApp({super.key});
+class RathnaveriKavithaFanApp extends StatelessWidget {
+  const RathnaveriKavithaFanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => StudioProvider()),
+        ChangeNotifierProvider(create: (_) => FanProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: "Nikhil's Fantasy Studio",
-            theme: StudioTheme.lightTheme,
-            darkTheme: StudioTheme.darkTheme,
+            title: 'Rathnaveri Kavitha Official Fan Page',
+            theme: RKTheme.lightTheme,
+            darkTheme: RKTheme.darkTheme,
             themeMode: themeProvider.isDark ? ThemeMode.dark : ThemeMode.light,
             home: const MainShell(),
           );
@@ -60,16 +60,14 @@ class _MainShellState extends State<MainShell> {
 
     final pages = [
       HomeScreen(onNavigate: navigateTo),
-      const TemplateLibraryScreen(),
-      const CanvasScreen(),
-      const MyDesignsScreen(),
-      const PacksScreen(),
+      const FanIdScreen(),
+      const CommunityScreen(),
+      const EventsScreen(),
+      const JourneyScreen(),
     ];
 
     return Scaffold(
-      backgroundColor: isDark
-          ? StudioTheme.bgDark
-          : StudioTheme.bgLight,
+      backgroundColor: isDark ? RKTheme.bgDark : RKTheme.bgLight,
       body: IndexedStack(
         index: _currentIndex,
         children: pages,
@@ -78,7 +76,7 @@ class _MainShellState extends State<MainShell> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
+              color: Colors.black.withValues(alpha: 0.18),
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),
@@ -87,7 +85,7 @@ class _MainShellState extends State<MainShell> {
         child: NavigationBar(
           selectedIndex: _currentIndex,
           onDestinationSelected: navigateTo,
-          height: 68,
+          height: 70,
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.home_outlined),
@@ -95,24 +93,24 @@ class _MainShellState extends State<MainShell> {
               label: 'Home',
             ),
             NavigationDestination(
-              icon: Icon(Icons.auto_awesome_outlined),
-              selectedIcon: Icon(Icons.auto_awesome),
-              label: 'Templates',
+              icon: Icon(Icons.badge_outlined),
+              selectedIcon: Icon(Icons.badge_rounded),
+              label: 'Fan ID',
             ),
             NavigationDestination(
-              icon: Icon(Icons.edit_outlined),
-              selectedIcon: Icon(Icons.edit),
-              label: 'Studio',
+              icon: Icon(Icons.chat_bubble_outline_rounded),
+              selectedIcon: Icon(Icons.chat_bubble_rounded),
+              label: 'Fan Wall',
             ),
             NavigationDestination(
-              icon: Icon(Icons.folder_outlined),
-              selectedIcon: Icon(Icons.folder_rounded),
-              label: 'My Work',
+              icon: Icon(Icons.event_outlined),
+              selectedIcon: Icon(Icons.event_rounded),
+              label: 'Events',
             ),
             NavigationDestination(
-              icon: Icon(Icons.inventory_2_outlined),
-              selectedIcon: Icon(Icons.inventory_2),
-              label: 'Packs',
+              icon: Icon(Icons.timeline_rounded),
+              selectedIcon: Icon(Icons.timeline_rounded),
+              label: 'Journey',
             ),
           ],
         ),

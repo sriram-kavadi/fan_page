@@ -1,5 +1,5 @@
-name: nikhils_fantasy_studio
-description: "Nikhil's Fantasy Studio - Premium Sticker & Digital Art Creator"
+name: rathnaveri_kavitha_fan_page
+description: "Rathnaveri Kavitha Official Fan Page & Community Hub"
 publish_to: 'none'
 
 version: 2.0.0+1
@@ -24,7 +24,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/illustrations/
 
   fonts:
     - family: Outfit

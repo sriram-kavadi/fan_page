@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nikhils_fantasy_studio/main.dart';
-import 'package:nikhils_fantasy_studio/screens/home_screen.dart';
+import 'package:rathnaveri_kavitha_fan_page/main.dart';
+import 'package:rathnaveri_kavitha_fan_page/screens/home_screen.dart';
 
 void main() {
-  testWidgets('Fantasy Studio app smoke test & navigation bar', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const FantasyStudioApp());
+  testWidgets('Rathnaveri Kavitha Fan Page smoke test & navigation bar', (WidgetTester tester) async {
+    await tester.pumpWidget(const RathnaveriKavithaFanApp());
     await tester.pump();
 
     // Verify MaterialApp title and shell
@@ -15,10 +14,10 @@ void main() {
 
     // Verify all 5 navigation destinations exist
     expect(find.text('Home'), findsOneWidget);
-    expect(find.text('Templates'), findsOneWidget);
-    expect(find.text('Studio'), findsOneWidget);
-    expect(find.text('My Work'), findsOneWidget);
-    expect(find.text('Packs'), findsOneWidget);
+    expect(find.text('Fan ID'), findsOneWidget);
+    expect(find.text('Fan Wall'), findsOneWidget);
+    expect(find.text('Events'), findsOneWidget);
+    expect(find.text('Journey'), findsOneWidget);
 
     // Verify Home screen is loaded initially
     expect(find.byType(HomeScreen), findsOneWidget);

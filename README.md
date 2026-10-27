@@ -1,109 +1,117 @@
-# ✦ Nikhil's Fantasy Studio
+# ✦ Rathnaveri Kavitha Official Fan Page
 
-> **Transform Your Imagination Into Extraordinary Sticker Art**  
-> A premium, full-featured digital art and sticker creation studio built with Flutter.
+> **Unity • Culture • Leadership • Social Service**  
+> An original, high-performance community application and digital fan hub dedicated to **Rathnaveri Kavitha**.
 
 ---
 
 ## 🌟 Overview & Identity
 
-**Nikhil's Fantasy Studio** is a creative suite engineered for digital artists, designers, and enthusiasts to craft, customize, and export holographic, cosmic, and fantasy sticker art. 
+**Rathnaveri Kavitha Official Fan Page** is a dedicated cultural, youth leadership, and community association hub. Engineered with Flutter (Material 3) and a custom **Imperial Crimson & Amber Gold** design system, the application delivers an authentic, feature-packed digital experience connecting thousands of volunteers and supporters across 33+ districts.
 
-Built with Flutter and styled with a custom design system ("Electric Studio"), the application delivers a modern creative workflow with 30+ categorized sticker templates, 5 themed collectible sticker packs, an interactive multi-layer canvas workspace, real-time transformations (scaling, rotation, repositioning), dynamic background textures, undo/redo history, and a local designs vault.
+The application is completely original in layout, visual identity, and interaction patterns—crafted specifically for community engagement, event mobilization, and digital fan membership.
 
 ---
 
 ## 🎨 Visual Identity & Design System
 
-- **Brand Name**: Nikhil's Fantasy Studio
-- **Tagline**: *Create • Design • Inspire*
+- **Brand Name**: Rathnaveri Kavitha Official Fan Page (RK Fans)
 - **Primary Color Palette**:
-  - `Electric Blue` (`#0A84FF`): Primary interactive elements & highlights
-  - `Mint Green` (`#00C896`): Secondary accents & success indicators
-  - `Coral Fire` (`#FF6B6B`): Warm highlights & badges
-  - `Celestial Gold` (`#FFD700`): Premium star badges & crown accents
-  - `Deep Navy / Cosmic Void` (`#0A0E1A`): Sleek dark mode canvas backdrop
-  - `Soft Lavender Glass` (`#F0F4FF`): Modern light mode surface
-- **Typography**: Google Fonts **Outfit** (Weights 400 to 800)
-- **Aesthetic**: Glassmorphic cards, luminous gradients, floating orbs, die-cut sticker borders, glowing halos, and micro-interactions.
+  - `Royal Ruby Crimson` (`#D90429` / `#EF233C`): Bold, passionate, authoritative primary action color.
+  - `Imperial Amber Gold` (`#FFB703` / `#FB8500`): Regal crest accents, verified member badges, and highlights.
+  - `Auspicious Emerald` (`#2A9D8F`): Active confirmations and social charity indicators.
+  - `Midnight Obsidian` (`#0B0F19` / `#161E2E`): Sleek, immersive dark mode backdrop.
+  - `Royal Warm Ivory` (`#FAF9F6`): Dignified, readable light mode surface.
+- **Typography**: Google Fonts **Outfit** (Weights 400 through 800) bundled locally.
+- **Vector Crest**: Custom mathematical `CustomPainter` rendering a glowing gold-rimmed laurel crest with the iconic **RK** monogram.
 
 ---
 
 ## 🚀 Key Features
 
-### 1. 🎨 Interactive Sticker Canvas
-- **Multi-Element Composition**: Place multiple sticker elements onto a styled canvas workspace.
-- **Direct Manipulation**: Tap to select, drag to reposition anywhere on the canvas.
-- **Precision Controls**: Scale elements from 0.3x to 4.0x, rotate 360°, and customize layers.
-- **Background Switcher**: Choose from Dark Grid, Neon Cosmic, Deep Nebula, Pure Dark, Cyber Dots, Sunset Gradient, or Light Studio.
-- **Undo / Redo Architecture**: Full 20-step undo and redo state stack for risk-free editing.
-- **Artwork Saving**: Save designs with customized titles to your personal gallery.
+### 1. 🏠 Interactive Home Dashboard
+- **Spotlight Hero**: Royal emblem crest with radiant glow, live follower stats, and interactive `PulseCheerButton` that increments real-time global cheers.
+- **Inspiration of the Day**: Rotating daily wisdom cards reflecting cultural pride and leadership values.
+- **Impact Statistics**: Live counters tracking 33 Active Districts, 25,000+ Volunteers, 142+ Events Held, and 58 Mega Blood Drives.
+- **Quick Action Grid**: One-tap shortcuts to Digital Fan ID, Community Wall, Events, and Journey Milestones.
+- **Digital Pass Callout**: Direct CTA to generate an official verified digital membership card.
+- **State Chapter Network**: Live horizontal directory of active district leads and volunteer corps.
 
-### 2. ⚡ 30+ Categorized Sticker Templates
-- **Cosmic**: *Galaxy Nova, Solar Flare, Aurora Ring, Moon Phase, Nebula Cloud, Comet Trail*
-- **Nature**: *Forest Spirit, Ocean Wave, Cherry Blossom, Thunder Storm, Crystal Snow, Volcano Fire*
-- **Fantasy**: *Dragon Scale, Phoenix Flame, Unicorn Magic, Crystal Sword, Magic Portal, Mermaid Tail*
-- **Tech**: *Cyber Circuit, Neon Matrix, Pixel Power, AI Nexus, Quantum Bit, Data Stream*
-- **Vibes**: *Fire King, Crown Royal, Legend Badge, Chill Wave, Zen Circle, Lucky Star*
-- **Multi-Shape Geometries**: Rendered with custom vector painters for Hexagon, Star, Shield, Diamond, Heart, and Circle die-cuts.
-- **Instant Search & Category Filters**: Real-time keyword filtering across all categories.
+### 2. 🪪 Digital Fan ID Card Generator
+- **Interactive 3D Metallic Card**: Real-time reactive preview that updates live as the fan fills out their details.
+- **Selectable Membership Tiers**:
+  - 👑 *Royal Patron VIP* (Crimson-Gold metallic gradient)
+  - 🌟 *Gold Youth Leader* (Burnished Gold metallic reflection)
+  - 🛡️ *Silver Volunteer* (Polished Platinum-Silver finish)
+- **Cryptographic QR Code**: Stylized 2D QR pattern embedded with unique state membership number (`RK-VIP-2026-XXXX`).
+- **Download & Verification Pass**: Generates official digital entry credentials valid for priority rally access.
 
-### 3. 📦 Themed Sticker Packs
-- 5 comprehensive collectible packs (*Cosmic Explorer*, *Fantasy Realm*, *Nature Force*, *Tech Cyberverse*, *Vibe Nation*).
-- Pack download management with dynamic download counters and sticker previews.
-- Pack inspection showing individual sticker assets and die-cut previews.
+### 3. 💬 Community Fan Wall
+- **Live Fan Message Stream**: Authentic messages, greetings, and cheers from grassroots supporters.
+- **Category Filter Chips**: Filter by *Inspiration*, *Charity & Social Work*, *Events & Rallies*, and *Cultural Pride*.
+- **Instant Search**: Real-time search across fan names, messages, or districts.
+- **Interactive Post Creator**: Full modal form enabling any supporter to post messages with custom tags.
+- **Interactive Cheer Toggles**: One-tap heart cheering with live count animation.
 
-### 4. 📁 My Designs Vault
-- Instant gallery of all saved sticker compositions and artworks.
-- Favorite designs filter tab.
-- Quick actions: load design into studio canvas, duplicate, or delete.
+### 4. 📅 Events, Summits & Rallies
+- **Comprehensive Event Schedule**: Listings for Youth Sammelanams, Mega Blood Drives, Bathukamma Festivals, and Educational Aid Drives.
+- **Interactive RSVP**: Instant registration toggle with live attendee counters.
+- **Gate Pass QR Modal**: Generates digital admission ticket with venue details, time, and member verification.
 
-### 5. 🌓 Dual-Theme System
-- Seamless dark and light mode toggle with state persistence.
-- Fluid transitions and contrast-optimized color palettes.
+### 5. 🏛️ Journey & Milestones Timeline
+- **Chronological Vertical Timeline**: Rich biographical steps highlighting grassroots heritage roots, formation of the youth wing, crisis relief networks, and the 2026 digital vision.
+
+### 6. 🎙️ Media & Speeches Vault
+- **Curated Archives**: Filterable galleries for public addresses, cultural celebrations, and charity distributions.
+- **Interactive Audio Preview**: Audio player controls for keynote speeches and folk heritage songs.
+
+### 7. 🗳️ Live Fan Voice Poll
+- **Community Democracy**: Real-time voting on community priority initiatives with animated percentage progress bars.
+
+### 8. 🌓 Dual Imperial Theme Engine
+- Seamless, contrast-optimized switching between Imperial Dark Mode and Royal Warm Ivory Light Mode.
 
 ---
 
 ## 📂 Project Architecture
 
 ```
-nikhils_fantasy_studio/
+rathnaveri_kavitha_fan_page/
 ├── assets/
-│   ├── fonts/                         # Bundled Outfit font files (400, 500, 600, 700, 800)
-│   ├── illustrations/                 # Hero fantasy illustration & holographic sticker graphics
-│   └── images/                        # High-resolution app logo & brand iconography
+│   ├── fonts/                         # Bundled Outfit font files (400 to 800 weights)
+│   └── images/                        # Brand iconography and assets
 ├── lib/
-│   ├── main.dart                      # App entry point, MultiProvider setup & 5-tab MainShell
+│   ├── main.dart                      # MultiProvider root & 5-destination NavigationBar
 │   ├── models/
-│   │   └── studio_models.dart         # StickerTemplate, CanvasStickerItem, CreatedDesign, StickerPack
+│   │   └── fan_models.dart            # FanMemberCard, CommunityWish, FanEvent, LifeMilestone, FanPoll
 │   ├── providers/
-│   │   ├── studio_provider.dart       # Core studio state: templates, canvas, undo/redo, packs
-│   │   └── theme_provider.dart        # Dynamic dark/light theme switching
+│   │   ├── fan_provider.dart          # Central reactive state: cheers, member card, wishes, events, polls
+│   │   └── theme_provider.dart        # Theme switching logic
 │   ├── screens/
-│   │   ├── home_screen.dart           # Dashboard with hero header, quick stats & recent creations
-│   │   ├── template_library_screen.dart# Searchable 30+ template gallery with category filtering
-│   │   ├── canvas_screen.dart         # Full interactive sticker canvas with gesture controls
-│   │   ├── my_designs_screen.dart     # User creations gallery & favorites filter
-│   │   └── packs_screen.dart          # Downloadable collectible packs & studio preferences
+│   │   ├── home_screen.dart           # Dashboard, stats, quotes, quick actions & chapters
+│   │   ├── fan_id_screen.dart         # Interactive digital membership card generator
+│   │   ├── community_screen.dart      # Real-time fan wall with category filters & posting modal
+│   │   ├── events_screen.dart         # Upcoming events, RSVP passes & ticket modals
+│   │   └── journey_screen.dart        # Chronological timeline, media vault & live poll
 │   ├── theme/
-│   │   └── app_theme.dart             # Material 3 design system with Electric Blue theme tokens
+│   │   └── app_theme.dart             # Imperial Crimson & Amber Gold Material 3 theme tokens
 │   └── widgets/
-│       └── studio_widgets.dart        # Custom geometric painters (Star, Hex, Shield, Diamond, Heart)
+│       └── rk_widgets.dart            # Vector crest painter, metallic ID card widget, pulse cheer button
 ├── test/
 │   ├── unit/
-│   │   ├── studio_models_test.dart    # Tests for models, serialization, copyWith
-│   │   ├── studio_provider_test.dart  # Tests for canvas operations, undo/redo, templates, packs
-│   │   └── theme_provider_test.dart   # Tests for light/dark theme toggles
-│   ├── widget/
-│   │   └── studio_screens_test.dart   # Widget tests for TemplateLibraryScreen & PacksScreen
-│   └── widget_test.dart               # Smoke test for FantasyStudioApp & navigation bar
+│   │   ├── fan_models_test.dart       # Model validation & serialization unit tests
+│   │   ├── fan_provider_test.dart     # State management & reactive logic unit tests
+│   │   └── theme_provider_test.dart   # Dark/light theme unit tests
+│   └── widget_test.dart               # Full app smoke test & navigation bar verification
 ├── web/
-│   ├── index.html                     # Custom branded HTML loader, SEO tags & OpenGraph metadata
-│   ├── manifest.json                  # PWA manifest with Nikhil's Fantasy Studio branding
-│   └── favicon.png                    # Brand favicon icon
+│   ├── index.html                     # Branded crimson-gold loading screen & SEO metadata
+│   ├── manifest.json                  # PWA configuration for mobile web installation
+│   └── favicon.png                    # Brand favicon
 ├── pubspec.yaml                       # Clean dependencies and asset declarations
-├── run_app.bat                        # One-click Windows launch script
-└── run_app.ps1                        # PowerShell launch script with build cache isolation
+├── vercel.json                        # Vercel deployment configuration & SPA routing
+├── vercel_build.sh                    # Automated cloud build script
+├── run_app.bat                        # Windows launch script
+└── run_app.ps1                        # PowerShell launch script
 ```
 
 ---
@@ -112,7 +120,7 @@ nikhils_fantasy_studio/
 
 ### Prerequisites
 - Flutter SDK (version 3.13.0 or higher)
-- Google Chrome (for web run) or Windows Desktop build tools
+- Google Chrome or any modern web browser
 
 ### 1. Install Dependencies
 ```bash
@@ -129,13 +137,13 @@ flutter analyze
 flutter test
 ```
 
-### 4. Launch Application
-To run in Google Chrome:
+### 4. Launch Application on Chrome
 ```bash
 flutter run -d chrome
 ```
-Or use the automated Windows runner:
-```bash
+
+Or run via automated Windows scripts:
+```cmd
 run_app.bat
 ```
 Or via PowerShell:
@@ -145,37 +153,18 @@ Or via PowerShell:
 
 ---
 
-## 🧪 Testing Verification
+## 🚀 Vercel Deployment
 
-The project includes unit and widget tests covering all critical paths:
-
-| Test File | Target | Coverage |
-| :--- | :--- | :--- |
-| `test/unit/studio_models_test.dart` | Models | `StickerTemplate`, `CanvasStickerItem`, `CreatedDesign`, `StickerPack` serialization & `copyWith` |
-| `test/unit/studio_provider_test.dart` | State Management | Canvas additions, positioning, scaling, rotation, undo/redo, template filters, pack downloads |
-| `test/unit/theme_provider_test.dart` | Theme System | Dark/Light mode toggles and default settings |
-| `test/widget/studio_screens_test.dart` | UI Screens | `TemplateLibraryScreen` search/categories & `PacksScreen` rendering |
-| `test/widget_test.dart` | App Shell | `FantasyStudioApp` smoke test & `NavigationBar` 5-tab destinations |
-
----
-
-## 🧹 Audit & Transformation Summary
-
-### Removed Obsolete & Personal Content
-- ❌ **17 personal photos** from original student project removed (`srekar.png`, `sriram.png`, `harshith.png`, `joshua.png`, `akhila.png`, `akhiila.png`, `pic1.png`–`pic11.png`).
-- ❌ **Old personal naming references** removed throughout codebase (`Srekar Fan Association`, student IDs, personal charity drives).
-- ❌ **Obsolete fan page screens** removed (`events_screen.dart`, `fans_screen.dart`, `gallery_screen.dart`, `leadership_screen.dart`, `membership_screen.dart`, `profile_screen.dart`, `updates_screen.dart`, `admin_dashboard.dart`, `experiments_hub_screen.dart`, `api_feed_screen.dart`).
-- ❌ **Monolithic duplicate `main.dart`** in root deleted.
-
-### New Assets & Original Content
-- ✨ **Custom App Logo**: Generated geometric glowing stylus hexagon badge (`assets/images/logo.png`).
-- ✨ **Hero Illustration**: High-resolution digital art studio banner (`assets/illustrations/hero_fantasy.png`).
-- ✨ **Original Die-Cut Stickers**: Holographic Crystal Dragon (`sticker_dragon.png`) & Celestial Phoenix (`sticker_phoenix.png`).
-- ✨ **Bundled Typography**: Full local suite of Google Fonts **Outfit** TTF files.
-- ✨ **Vector Die-Cut Shapes**: Custom Flutter painters for Star, Hexagon, Shield, Diamond, Heart, and Circle stickers.
-- ✨ **Branded Web Shell**: Updated `web/index.html` with animated loading screen and `web/manifest.json`.
+This project is pre-configured for automated Vercel deployment:
+1. Push code to your repository:
+   ```bash
+   git push origin main
+   ```
+2. In [Vercel Dashboard](https://vercel.com/new), import your repository.
+3. Build command (`bash vercel_build.sh`) and output directory (`build/web`) are automatically detected via [`vercel.json`](file:///d:/project/fan_page/vercel.json).
+4. Click **Deploy** for free global CDN hosting with automatic HTTPS!
 
 ---
 
 ## 📄 License
-Created for Nikhil's Fantasy Studio. All rights reserved.
+Created for Rathnaveri Kavitha Official Fan Association. All rights reserved.

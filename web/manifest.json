@@ -1,14 +1,14 @@
 {
-    "name": "Nikhil's Fantasy Studio",
-    "short_name": "Fantasy Studio",
+    "name": "Rathnaveri Kavitha Official Fan Page",
+    "short_name": "RK Fans",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0A0E1A",
-    "theme_color": "#0A84FF",
-    "description": "Nikhil's Fantasy Studio - Create stunning sticker art with 30+ premium templates and interactive canvas editor.",
+    "background_color": "#0B0F19",
+    "theme_color": "#D90429",
+    "description": "Rathnaveri Kavitha Official Youth & Cultural Fan Hub - Community Wall, Events & Digital ID Pass.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
-    "categories": ["design", "art", "productivity"],
+    "categories": ["social", "community", "culture"],
     "icons": [
         {
             "src": "icons/Icon-192.png",

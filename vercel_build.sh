@@ -2,7 +2,7 @@
 set -e
 
 echo "🚀 ==============================================="
-echo "🚀 Nikhil's Fantasy Studio - Vercel Build Script"
+echo "🚀 Rathnaveri Kavitha Official Fan Page - Vercel Build"
 echo "🚀 ==============================================="
 
 # 1. Configure Git for CI environments

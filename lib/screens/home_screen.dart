@@ -1,20 +1,19 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
-import '../providers/studio_provider.dart';
+import '../providers/fan_provider.dart';
 import '../providers/theme_provider.dart';
-import '../models/studio_models.dart';
-import '../widgets/studio_widgets.dart';
+import '../widgets/rk_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function(int) onNavigate;
+
   const HomeScreen({super.key, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final studio = context.watch<StudioProvider>();
+    final fan = context.watch<FanProvider>();
     final theme = context.watch<ThemeProvider>();
 
     return Scaffold(
@@ -23,21 +22,21 @@ class HomeScreen extends StatelessWidget {
         slivers: [
           // === HERO APP BAR ===
           SliverAppBar(
-            expandedHeight: 220,
+            expandedHeight: 280,
             floating: false,
             pinned: true,
             backgroundColor: isDark
-                ? StudioTheme.bgDark.withValues(alpha: 0.95)
+                ? RKTheme.bgDark.withValues(alpha: 0.95)
                 : Colors.white.withValues(alpha: 0.95),
             flexibleSpace: FlexibleSpaceBar(
-              background: _HeroHeader(isDark: isDark),
+              background: _HeroBanner(fan: fan, isDark: isDark),
             ),
             actions: [
               IconButton(
                 tooltip: 'Toggle Theme',
                 icon: Icon(
                   theme.isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                  color: StudioTheme.primary,
+                  color: RKTheme.gold,
                 ),
                 onPressed: () => theme.toggleTheme(),
               ),
@@ -45,65 +44,71 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
 
+          // === MAIN CONTENT LIST ===
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
+                const SizedBox(height: 24),
+
+                // Live Impact Statistics
+                _ImpactStatsRow(isDark: isDark),
+
                 const SizedBox(height: 28),
 
-                // === QUICK STATS ROW ===
-                _StatsRow(studio: studio),
+                // Inspirational Quote of the Day
+                _QuoteBanner(quote: fan.quotes.first, isDark: isDark),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 28),
 
-                // === QUICK ACTIONS ===
-                _SectionHeader(
-                  title: 'Quick Start',
-                  emoji: '⚡',
-                  onSeeAll: null,
+                // Quick Action Hub
+                _SectionTitle(title: 'Quick Access', emoji: '⚡', isDark: isDark),
+                const SizedBox(height: 14),
+                _QuickActionGrid(onNavigate: onNavigate, isDark: isDark),
+
+                const SizedBox(height: 28),
+
+                // Digital ID Pass Banner Callout
+                _DigitalCardCTA(fan: fan, onNavigate: onNavigate),
+
+                const SizedBox(height: 28),
+
+                // Upcoming Featured Event
+                _SectionTitle(
+                  title: 'Featured Event',
+                  emoji: '📅',
+                  isDark: isDark,
+                  actionText: 'View All (4)',
+                  onAction: () => onNavigate(3), // Events tab
                 ),
-                const SizedBox(height: 16),
-                _QuickActionsGrid(onNavigate: onNavigate),
-
-                const SizedBox(height: 32),
-
-                // === TRENDING TEMPLATES ===
-                _SectionHeader(
-                  title: 'Trending Templates',
-                  emoji: '🔥',
-                  onSeeAll: () => onNavigate(1),
+                const SizedBox(height: 14),
+                _FeaturedEventCard(
+                  event: fan.events.first,
+                  onRegister: () => fan.toggleEventRegistration(fan.events.first.id),
+                  isDark: isDark,
                 ),
-                const SizedBox(height: 16),
-                _TrendingTemplatesRow(studio: studio, onNavigate: onNavigate),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 28),
 
-                // === MY RECENT DESIGNS ===
-                _SectionHeader(
-                  title: 'Recent Designs',
-                  emoji: '🎨',
-                  onSeeAll: () => onNavigate(3),
+                // Live Fan Wall Preview
+                _SectionTitle(
+                  title: 'Community Fan Wall',
+                  emoji: '💬',
+                  isDark: isDark,
+                  actionText: 'Join Wall',
+                  onAction: () => onNavigate(2), // Fan wall tab
                 ),
-                const SizedBox(height: 16),
-                _RecentDesignsList(studio: studio),
+                const SizedBox(height: 14),
+                _RecentWishesList(fan: fan, isDark: isDark),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 28),
 
-                // === STICKER PACKS ===
-                _SectionHeader(
-                  title: 'Featured Packs',
-                  emoji: '📦',
-                  onSeeAll: () => onNavigate(4),
-                ),
-                const SizedBox(height: 16),
-                _FeaturedPacksRow(studio: studio, onNavigate: onNavigate),
+                // District Chapters Snapshot
+                _SectionTitle(title: 'Active District Chapters', emoji: '🏛️', isDark: isDark),
+                const SizedBox(height: 14),
+                _ChapterNetworkRow(chapters: fan.chapters, isDark: isDark),
 
-                const SizedBox(height: 32),
-
-                // === START CREATING CTA ===
-                _CreateCTA(onTap: () => onNavigate(2)),
-
-                const SizedBox(height: 32),
+                const SizedBox(height: 36),
               ]),
             ),
           ),
@@ -113,202 +118,244 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// ========================== HERO HEADER ==========================
+// ============================================================================
+// HERO BANNER
+// ============================================================================
 
-class _HeroHeader extends StatefulWidget {
+class _HeroBanner extends StatelessWidget {
+  final FanProvider fan;
   final bool isDark;
-  const _HeroHeader({required this.isDark});
 
-  @override
-  State<_HeroHeader> createState() => _HeroHeaderState();
-}
-
-class _HeroHeaderState extends State<_HeroHeader>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 8),
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  const _HeroBanner({required this.fan, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: widget.isDark
-            ? const LinearGradient(
-                colors: [Color(0xFF0A0E1A), Color(0xFF0D1E3D), Color(0xFF0A0E1A)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
+        gradient: isDark
+            ? RKTheme.royalHeroGradient
             : const LinearGradient(
-                colors: [Color(0xFFE8F4FD), Color(0xFFF0E8FF), Color(0xFFE8F4FD)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                colors: [Color(0xFFFFF0F2), Color(0xFFFDFBF7), Color(0xFFFFF8E7)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
       ),
       child: SafeArea(
-        child: Stack(
-          children: [
-            // Animated floating orbs
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Stack(
-                  children: [
-                    Positioned(
-                      left: 20 + 30 * math.sin(_controller.value * 2 * math.pi),
-                      top: 30 + 15 * math.cos(_controller.value * 2 * math.pi),
-                      child: _FloatingOrb(
-                        size: 80,
-                        color: StudioTheme.primary.withValues(alpha: 0.15),
-                      ),
-                    ),
-                    Positioned(
-                      right: 30 + 20 * math.cos(_controller.value * 2 * math.pi),
-                      top: 10 + 20 * math.sin(_controller.value * 2 * math.pi * 0.7),
-                      child: _FloatingOrb(
-                        size: 60,
-                        color: StudioTheme.secondary.withValues(alpha: 0.12),
-                      ),
-                    ),
-                    Positioned(
-                      right: 80,
-                      bottom: 20 + 10 * math.sin(_controller.value * 2 * math.pi * 1.3),
-                      child: _FloatingOrb(
-                        size: 40,
-                        color: StudioTheme.accent.withValues(alpha: 0.1),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-
-            // Content
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const RKEmblemCrest(size: 72, showGlow: true),
+              const SizedBox(height: 12),
+              Text(
+                'RATHNAVERI KAVITHA',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.5,
+                  color: isDark ? Colors.white : const Color(0xFF0B0F19),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo row
-                  Row(
-                    children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: StudioTheme.primary.withValues(alpha: 0.4),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
-                            decoration: const BoxDecoration(gradient: StudioTheme.primaryGradient),
-                            child: const Center(
-                              child: Text('✦', style: TextStyle(fontSize: 20, color: Colors.white)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Nikhil's Fantasy Studio",
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: widget.isDark ? Colors.white : const Color(0xFF0A0E1A),
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                          Text(
-                            'Create • Design • Inspire',
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: StudioTheme.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Hero tagline
-                  Text(
-                    'Craft stunning\nsticker art ✨',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                      color: widget.isDark ? Colors.white : const Color(0xFF0A0E1A),
-                      height: 1.2,
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      color: RKTheme.gold,
+                      shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(width: 8),
                   Text(
-                    '30+ premium templates · 5 themed packs',
+                    'OFFICIAL YOUTH & CULTURAL FAN HUB',
                     style: TextStyle(
                       fontFamily: 'Outfit',
-                      fontSize: 13,
-                      color: widget.isDark ? Colors.white54 : Colors.black45,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2,
+                      color: RKTheme.gold,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      color: RKTheme.gold,
+                      shape: BoxShape.circle,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              PulseCheerButton(
+                count: fan.totalCheers,
+                onTap: () => fan.addCheer(),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _FloatingOrb extends StatelessWidget {
-  final double size;
-  final Color color;
-  const _FloatingOrb({required this.size, required this.color});
+// ============================================================================
+// IMPACT STATISTICS ROW
+// ============================================================================
+
+class _ImpactStatsRow extends StatelessWidget {
+  final bool isDark;
+  const _ImpactStatsRow({required this.isDark});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: size,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-        boxShadow: [
-          BoxShadow(
-            color: color,
-            blurRadius: size * 0.5,
-            spreadRadius: size * 0.1,
+        color: isDark ? RKTheme.cardDark : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark ? Colors.white12 : Colors.black12,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _StatCol(number: '33', label: 'Districts', isDark: isDark),
+          _Divider(isDark: isDark),
+          _StatCol(number: '25K+', label: 'Volunteers', isDark: isDark),
+          _Divider(isDark: isDark),
+          _StatCol(number: '142+', label: 'Events Held', isDark: isDark),
+          _Divider(isDark: isDark),
+          _StatCol(number: '58', label: 'Blood Drives', isDark: isDark),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatCol extends StatelessWidget {
+  final String number, label;
+  final bool isDark;
+  const _StatCol({required this.number, required this.label, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          number,
+          style: const TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: RKTheme.gold,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Outfit',
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: isDark ? Colors.white54 : Colors.black54,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Divider extends StatelessWidget {
+  final bool isDark;
+  const _Divider({required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 26,
+      color: isDark ? Colors.white12 : Colors.black12,
+    );
+  }
+}
+
+// ============================================================================
+// QUOTE OF THE DAY BANNER
+// ============================================================================
+
+class _QuoteBanner extends StatelessWidget {
+  final String quote;
+  final bool isDark;
+  const _QuoteBanner({required this.quote, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: isDark
+              ? [const Color(0xFF2E0914), const Color(0xFF161E2E)]
+              : [const Color(0xFFFFF2F4), const Color(0xFFFFF8EC)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: RKTheme.gold.withValues(alpha: 0.35),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.format_quote_rounded, color: RKTheme.gold, size: 24),
+              const SizedBox(width: 8),
+              Text(
+                'INSPIRATION OF THE DAY',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  color: RKTheme.gold,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            quote,
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 14,
+              fontStyle: FontStyle.italic,
+              height: 1.45,
+              fontWeight: FontWeight.w500,
+              color: isDark ? Colors.white : const Color(0xFF0B0F19),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              '— Rathnaveri Kavitha',
+              style: TextStyle(
+                fontFamily: 'Outfit',
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: isDark ? RKTheme.goldLight : RKTheme.primary,
+              ),
+            ),
           ),
         ],
       ),
@@ -316,181 +363,72 @@ class _FloatingOrb extends StatelessWidget {
   }
 }
 
-// ========================== STATS ROW ==========================
+// ============================================================================
+// QUICK ACTION GRID
+// ============================================================================
 
-class _StatsRow extends StatelessWidget {
-  final StudioProvider studio;
-  const _StatsRow({required this.studio});
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final stats = [
-      _StatItem('${studio.totalTemplates}', 'Templates', '🎨', StudioTheme.primary),
-      _StatItem('${studio.totalPacks}', 'Packs', '📦', StudioTheme.secondary),
-      _StatItem('${studio.savedDesigns.length}', 'My Designs', '✏️', StudioTheme.purple),
-      _StatItem('${(studio.totalDownloads / 1000).toStringAsFixed(1)}K', 'Downloads', '⬇️', StudioTheme.accent),
-    ];
-
-    return Row(
-      children: stats.map((stat) {
-        return Expanded(
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            decoration: BoxDecoration(
-              color: isDark ? StudioTheme.cardDark : Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: stat.color.withValues(alpha: 0.2),
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: stat.color.withValues(alpha: 0.06),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(stat.emoji, style: const TextStyle(fontSize: 20)),
-                const SizedBox(height: 6),
-                Text(
-                  stat.value,
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w800,
-                    color: stat.color,
-                  ),
-                ),
-                Text(
-                  stat.label,
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    color: isDark ? Colors.white38 : Colors.black38,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-}
-
-class _StatItem {
-  final String value, label, emoji;
-  final Color color;
-  _StatItem(this.value, this.label, this.emoji, this.color);
-}
-
-// ========================== SECTION HEADER ==========================
-
-class _SectionHeader extends StatelessWidget {
-  final String title, emoji;
-  final VoidCallback? onSeeAll;
-  const _SectionHeader({required this.title, required this.emoji, this.onSeeAll});
+class _QuickActionGrid extends StatelessWidget {
+  final Function(int) onNavigate;
+  final bool isDark;
+  const _QuickActionGrid({required this.onNavigate, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 14,
+      mainAxisSpacing: 14,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      childAspectRatio: 1.5,
       children: [
-        Row(
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 22)),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: TextStyle(
-                fontFamily: 'Outfit',
-                fontSize: 19,
-                fontWeight: FontWeight.w700,
-                color: isDark ? Colors.white : const Color(0xFF0A0E1A),
-              ),
-            ),
-          ],
+        _ActionTile(
+          icon: Icons.badge_outlined,
+          title: 'Digital Fan ID',
+          subtitle: 'Generate Member Card',
+          gradient: RKTheme.rubyGradient,
+          onTap: () => onNavigate(1),
         ),
-        if (onSeeAll != null)
-          TextButton(
-            onPressed: onSeeAll,
-            child: Text(
-              'See all →',
-              style: TextStyle(
-                fontFamily: 'Outfit',
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: StudioTheme.primary,
-              ),
-            ),
+        _ActionTile(
+          icon: Icons.chat_bubble_outline_rounded,
+          title: 'Fan Wall',
+          subtitle: 'Post Wishes & Cheers',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF2A9D8F), Color(0xFF1E6F66)],
           ),
+          onTap: () => onNavigate(2),
+        ),
+        _ActionTile(
+          icon: Icons.event_available_outlined,
+          title: 'Events & Rallies',
+          subtitle: 'Passes & Schedule',
+          gradient: RKTheme.goldGradient,
+          onTap: () => onNavigate(3),
+        ),
+        _ActionTile(
+          icon: Icons.timeline_rounded,
+          title: 'Journey & Life',
+          subtitle: 'Milestones & Impact',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF5A1224), Color(0xFF2E0914)],
+          ),
+          onTap: () => onNavigate(4),
+        ),
       ],
     );
   }
 }
 
-// ========================== QUICK ACTIONS GRID ==========================
-
-class _QuickActionsGrid extends StatelessWidget {
-  final Function(int) onNavigate;
-  const _QuickActionsGrid({required this.onNavigate});
-
-  @override
-  Widget build(BuildContext context) {
-    final actions = [
-      _ActionCard(
-        label: 'Browse Templates',
-        emoji: '🎨',
-        gradient: StudioTheme.primaryGradient,
-        onTap: () => onNavigate(1),
-      ),
-      _ActionCard(
-        label: 'Open Studio',
-        emoji: '✏️',
-        gradient: StudioTheme.mintGradient,
-        onTap: () => onNavigate(2),
-      ),
-      _ActionCard(
-        label: 'My Designs',
-        emoji: '📁',
-        gradient: StudioTheme.purpleGradient,
-        onTap: () => onNavigate(3),
-      ),
-      _ActionCard(
-        label: 'Get Packs',
-        emoji: '📦',
-        gradient: StudioTheme.accentGradient,
-        onTap: () => onNavigate(4),
-      ),
-    ];
-
-    return GridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      childAspectRatio: 1.6,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: actions,
-    );
-  }
-}
-
-class _ActionCard extends StatelessWidget {
-  final String label, emoji;
+class _ActionTile extends StatelessWidget {
+  final IconData icon;
+  final String title, subtitle;
   final LinearGradient gradient;
   final VoidCallback onTap;
-  const _ActionCard({
-    required this.label,
-    required this.emoji,
+
+  const _ActionTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
     required this.gradient,
     required this.onTap,
   });
@@ -500,271 +438,431 @@ class _ActionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: gradient,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: gradient.colors.first.withValues(alpha: 0.3),
-              blurRadius: 12,
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 10,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(emoji, style: const TextStyle(fontSize: 28)),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontFamily: 'Outfit',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(icon, color: Colors.white, size: 28),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-            ],
-          ),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 11,
+                    color: Colors.white.withValues(alpha: 0.8),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-// ========================== TRENDING TEMPLATES ==========================
+// ============================================================================
+// DIGITAL CARD CTA CALLOUT
+// ============================================================================
 
-class _TrendingTemplatesRow extends StatelessWidget {
-  final StudioProvider studio;
+class _DigitalCardCTA extends StatelessWidget {
+  final FanProvider fan;
   final Function(int) onNavigate;
-  const _TrendingTemplatesRow({required this.studio, required this.onNavigate});
+
+  const _DigitalCardCTA({required this.fan, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
-    final trending = studio.allTemplates.take(6).toList();
-
-    return SizedBox(
-      height: 130,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: trending.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final template = trending[index];
-          return GestureDetector(
-            onTap: () {
-              studio.addStickerToCanvas(template);
-              onNavigate(2);
-            },
-            child: StickerPreviewWidget(template: template, size: 110),
-          );
-        },
+    return GestureDetector(
+      onTap: () => onNavigate(1),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: RKTheme.cardVipGradient,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: RKTheme.gold.withValues(alpha: 0.6)),
+          boxShadow: [
+            BoxShadow(
+              color: RKTheme.gold.withValues(alpha: 0.2),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            const RKEmblemCrest(size: 60, showGlow: false),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Get Your Official Fan Pass',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Exclusive verified QR ID card with state member number.',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 12,
+                      color: Colors.white.withValues(alpha: 0.8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: RKTheme.gold,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(Icons.arrow_forward, color: Colors.black, size: 20),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// ========================== RECENT DESIGNS ==========================
+// ============================================================================
+// FEATURED EVENT CARD
+// ============================================================================
 
-class _RecentDesignsList extends StatelessWidget {
-  final StudioProvider studio;
-  const _RecentDesignsList({required this.studio});
+class _FeaturedEventCard extends StatelessWidget {
+  final dynamic event;
+  final VoidCallback onRegister;
+  final bool isDark;
+
+  const _FeaturedEventCard({
+    required this.event,
+    required this.onRegister,
+    required this.isDark,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: isDark ? RKTheme.cardDark : Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: RKTheme.primary.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  event.category.toUpperCase(),
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    color: RKTheme.primary,
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.people_alt_outlined, size: 14, color: RKTheme.gold),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${event.attendingCount} Attending',
+                    style: const TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: RKTheme.gold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            event.title,
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: isDark ? Colors.white : const Color(0xFF0B0F19),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            event.description,
+            style: TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 13,
+              color: isDark ? Colors.white60 : Colors.black54,
+              height: 1.4,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Icon(Icons.calendar_month, size: 16, color: isDark ? Colors.white38 : Colors.black38),
+              const SizedBox(width: 6),
+              Text(
+                '${event.date} • ${event.venue}',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 12,
+                  color: isDark ? Colors.white60 : Colors.black54,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: onRegister,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: event.isRegistered ? RKTheme.emerald : RKTheme.primary,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+              icon: Icon(event.isRegistered ? Icons.check_circle : Icons.confirmation_number_outlined, size: 18),
+              label: Text(event.isRegistered ? 'PASS CONFIRMED (Tap to Cancel)' : 'GET FREE ENTRY PASS'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-    if (studio.savedDesigns.isEmpty) {
-      return _EmptyState(
-        emoji: '🎨',
-        title: 'No designs yet',
-        subtitle: 'Create your first sticker design in Studio',
-      );
-    }
+// ============================================================================
+// RECENT WISHES LIST
+// ============================================================================
 
+class _RecentWishesList extends StatelessWidget {
+  final FanProvider fan;
+  final bool isDark;
+  const _RecentWishesList({required this.fan, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
-      children: studio.savedDesigns.take(3).map((design) {
+      children: fan.wishes.take(2).map((w) {
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: isDark ? StudioTheme.cardDark : Colors.white,
+            color: isDark ? RKTheme.cardDark : Colors.white,
             borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.06),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
           ),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Design preview placeholder
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  gradient: _getBgGradient(design.canvasBackground),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Center(
-                  child: Text(
-                    '🎨',
-                    style: const TextStyle(fontSize: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundColor: RKTheme.primary.withValues(alpha: 0.15),
+                        child: Text(
+                          w.authorName[0],
+                          style: const TextStyle(fontWeight: FontWeight.w800, color: RKTheme.primary),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            w.authorName,
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: isDark ? Colors.white : Colors.black87,
+                            ),
+                          ),
+                          Text(
+                            w.district,
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              fontSize: 11,
+                              color: isDark ? Colors.white38 : Colors.black38,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      design.name,
-                      style: TextStyle(
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: RKTheme.gold.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      w.categoryTag,
+                      style: const TextStyle(
                         fontFamily: 'Outfit',
-                        fontSize: 16,
+                        fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: isDark ? Colors.white : const Color(0xFF0A0E1A),
+                        color: RKTheme.goldDark,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                w.message,
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  fontSize: 13,
+                  color: isDark ? Colors.white70 : Colors.black87,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () => fan.toggleLikeWish(w.id),
+                child: Row(
+                  children: [
+                    Icon(
+                      w.hasLiked ? Icons.favorite : Icons.favorite_border,
+                      size: 16,
+                      color: w.hasLiked ? RKTheme.primary : (isDark ? Colors.white38 : Colors.black38),
+                    ),
+                    const SizedBox(width: 6),
                     Text(
-                      '${design.stickerCount} stickers · ${_formatDate(design.lastModified)}',
+                      '${w.likesCount} Cheers',
                       style: TextStyle(
                         fontFamily: 'Outfit',
                         fontSize: 12,
-                        color: isDark ? Colors.white38 : Colors.black38,
+                        fontWeight: FontWeight.w600,
+                        color: isDark ? Colors.white54 : Colors.black54,
                       ),
                     ),
                   ],
                 ),
               ),
-              if (design.isFavorite)
-                const Icon(Icons.favorite_rounded, color: StudioTheme.accent, size: 18),
-              const SizedBox(width: 4),
-              Icon(Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: isDark ? Colors.white30 : Colors.black26),
             ],
           ),
         );
       }).toList(),
     );
   }
-
-  LinearGradient _getBgGradient(String bg) {
-    switch (bg) {
-      case 'gradient_sunset':
-        return StudioTheme.accentGradient;
-      case 'gradient_ocean':
-        return StudioTheme.mintGradient;
-      case 'gradient_purple':
-        return StudioTheme.purpleGradient;
-      default:
-        return StudioTheme.primaryGradient;
-    }
-  }
-
-  String _formatDate(DateTime dt) {
-    final now = DateTime.now();
-    final diff = now.difference(dt);
-    if (diff.inDays == 0) return 'Today';
-    if (diff.inDays == 1) return 'Yesterday';
-    return '${diff.inDays} days ago';
-  }
 }
 
-// ========================== FEATURED PACKS ==========================
+// ============================================================================
+// CHAPTER NETWORK ROW
+// ============================================================================
 
-class _FeaturedPacksRow extends StatelessWidget {
-  final StudioProvider studio;
-  final Function(int) onNavigate;
-  const _FeaturedPacksRow({required this.studio, required this.onNavigate});
+class _ChapterNetworkRow extends StatelessWidget {
+  final List<dynamic> chapters;
+  final bool isDark;
+  const _ChapterNetworkRow({required this.chapters, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160,
+      height: 110,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: studio.packs.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        itemCount: chapters.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
-          final pack = studio.packs[index];
-          return GestureDetector(
-            onTap: () => onNavigate(4),
-            child: Container(
-              width: 150,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: pack.gradientColors.map((c) => Color(c)).toList(),
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+          final c = chapters[index];
+          return Container(
+            width: 160,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: isDark ? RKTheme.cardDark : Colors.white,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  c.district,
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(pack.gradientColors.first).withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+                const SizedBox(height: 4),
+                Text(
+                  'Lead: ${c.leadName}',
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 11,
+                    color: isDark ? Colors.white60 : Colors.black54,
                   ),
-                ],
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(pack.previewEmoji, style: const TextStyle(fontSize: 34)),
-                  const Spacer(),
-                  Text(
-                    pack.name,
-                    style: const TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  '${c.volunteerCount} Volunteers',
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: RKTheme.gold,
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      if (pack.isDownloaded)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            '✓ Owned',
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: 10,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        )
-                      else
-                        Text(
-                          '${pack.stickerCount} stickers',
-                          style: const TextStyle(
-                            fontFamily: 'Outfit',
-                            fontSize: 11,
-                            color: Colors.white70,
-                          ),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -773,136 +871,58 @@ class _FeaturedPacksRow extends StatelessWidget {
   }
 }
 
-// ========================== CTA BANNER ==========================
+// ============================================================================
+// SECTION TITLE HEADER
+// ============================================================================
 
-class _CreateCTA extends StatelessWidget {
-  final VoidCallback onTap;
-  const _CreateCTA({required this.onTap});
+class _SectionTitle extends StatelessWidget {
+  final String title, emoji;
+  final bool isDark;
+  final String? actionText;
+  final VoidCallback? onAction;
+
+  const _SectionTitle({
+    required this.title,
+    required this.emoji,
+    required this.isDark,
+    this.actionText,
+    this.onAction,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF0A84FF), Color(0xFF00C896)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: StudioTheme.primary.withValues(alpha: 0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Row(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '🚀 Start Creating',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Launch Studio to craft your first sticker art masterpiece',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      fontSize: 13,
-                      color: Colors.white.withValues(alpha: 0.85),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      'Open Studio  →',
-                      style: TextStyle(
-                        fontFamily: 'Outfit',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 16),
-            SizedBox(
-              width: 72,
-              height: 72,
-              child: Image.asset(
-                'assets/illustrations/sticker_dragon.png',
-                fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => const Text('✦', style: TextStyle(fontSize: 60, color: Colors.white24)),
+            Text(emoji, style: const TextStyle(fontSize: 18)),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Outfit',
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: isDark ? Colors.white : const Color(0xFF0B0F19),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-// ========================== EMPTY STATE ==========================
-
-class _EmptyState extends StatelessWidget {
-  final String emoji, title, subtitle;
-  const _EmptyState({required this.emoji, required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      padding: const EdgeInsets.all(32),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: isDark ? StudioTheme.cardDark : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          Text(emoji, style: const TextStyle(fontSize: 40)),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: isDark ? Colors.white70 : Colors.black87,
+        if (actionText != null && onAction != null)
+          GestureDetector(
+            onTap: onAction,
+            child: Text(
+              actionText!,
+              style: const TextStyle(
+                fontFamily: 'Outfit',
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: RKTheme.primary,
+              ),
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 13,
-              color: isDark ? Colors.white38 : Colors.black38,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

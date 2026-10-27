@@ -2,10 +2,10 @@ param (
     [string]$Device = "chrome"
 )
 
-# Nikhil's Fantasy Studio - App Launch Script
+# Rathnaveri Kavitha Official Fan Page - App Launch Script
 # Automatically ensures build directory is isolated from sync locks
 
-$targetBuild = "$env:LOCALAPPDATA\Fantasy_studio_build"
+$targetBuild = "$env:LOCALAPPDATA\RK_fan_page_build"
 
 if (!(Test-Path $targetBuild)) {
     New-Item -ItemType Directory -Path $targetBuild -Force | Out-Null
@@ -20,6 +20,6 @@ if (Test-Path "build\flutter_assets") {
     Remove-Item -Recurse -Force "build\flutter_assets" -ErrorAction SilentlyContinue | Out-Null
 }
 
-Write-Host "🚀 Launching Nikhil's Fantasy Studio on $Device..." -ForegroundColor Cyan
+Write-Host "🚀 Launching Rathnaveri Kavitha Official Fan Page on $Device..." -ForegroundColor Red
 
 flutter run -d $Device
