@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 import '../providers/fan_provider.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/rk_widgets.dart';
+import '../widgets/responsive_layout.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function(int) onNavigate;
@@ -32,6 +33,22 @@ class HomeScreen extends StatelessWidget {
               background: _HeroBanner(fan: fan, isDark: isDark),
             ),
             actions: [
+              IconButton(
+                tooltip: 'Flutter Lab Experiments Hub (1-10)',
+                icon: const Icon(
+                  Icons.science_outlined,
+                  color: RKTheme.gold,
+                ),
+                onPressed: () => Navigator.pushNamed(context, '/experiments'),
+              ),
+              IconButton(
+                tooltip: 'Live REST API Feed (Exp 9)',
+                icon: const Icon(
+                  Icons.cloud_sync_outlined,
+                  color: RKTheme.gold,
+                ),
+                onPressed: () => Navigator.pushNamed(context, '/api-feed'),
+              ),
               IconButton(
                 tooltip: 'Toggle Theme',
                 icon: Icon(
@@ -374,13 +391,18 @@ class _QuickActionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ResponsiveLayout.isDesktop(context);
+    final isTablet = ResponsiveLayout.isTablet(context);
+    final crossAxisCount = isDesktop ? 3 : (isTablet ? 3 : 2);
+    final aspectRatio = isDesktop ? 2.1 : (isTablet ? 1.7 : 1.45);
+
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: crossAxisCount,
       crossAxisSpacing: 14,
       mainAxisSpacing: 14,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 1.5,
+      childAspectRatio: aspectRatio,
       children: [
         _ActionTile(
           icon: Icons.badge_outlined,
@@ -413,6 +435,24 @@ class _QuickActionGrid extends StatelessWidget {
             colors: [Color(0xFF5A1224), Color(0xFF2E0914)],
           ),
           onTap: () => onNavigate(4),
+        ),
+        _ActionTile(
+          icon: Icons.science_outlined,
+          title: 'Lab Experiments',
+          subtitle: 'Experiments 1 - 10 Hub',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF7B2CBF), Color(0xFF5A189A)],
+          ),
+          onTap: () => Navigator.pushNamed(context, '/experiments'),
+        ),
+        _ActionTile(
+          icon: Icons.cloud_sync_outlined,
+          title: 'Live REST API',
+          subtitle: 'HTTP Dispatches (Exp 9)',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF0077B6), Color(0xFF023E8A)],
+          ),
+          onTap: () => Navigator.pushNamed(context, '/api-feed'),
         ),
       ],
     );
