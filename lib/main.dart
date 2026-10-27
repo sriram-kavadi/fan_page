@@ -3,11 +3,14 @@ import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'providers/theme_provider.dart';
 import 'providers/fan_provider.dart';
+import 'providers/api_feed_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/fan_id_screen.dart';
 import 'screens/community_screen.dart';
 import 'screens/events_screen.dart';
 import 'screens/journey_screen.dart';
+import 'screens/experiments_hub_screen.dart';
+import 'screens/api_feed_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,7 @@ class RathnaveriKavithaFanApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => FanProvider()),
+        ChangeNotifierProvider(create: (_) => ApiFeedProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
@@ -32,7 +36,16 @@ class RathnaveriKavithaFanApp extends StatelessWidget {
             theme: RKTheme.lightTheme,
             darkTheme: RKTheme.darkTheme,
             themeMode: themeProvider.isDark ? ThemeMode.dark : ThemeMode.light,
-            home: const MainShell(),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const MainShell(),
+              '/experiments': (context) => const ExperimentsHubScreen(),
+              '/api-feed': (context) => const ApiFeedScreen(),
+              '/fan-id': (context) => const Scaffold(body: FanIdScreen()),
+              '/community': (context) => const Scaffold(body: CommunityScreen()),
+              '/events': (context) => const Scaffold(body: EventsScreen()),
+              '/journey': (context) => const Scaffold(body: JourneyScreen()),
+            },
           );
         },
       ),
