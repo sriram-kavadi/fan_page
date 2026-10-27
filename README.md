@@ -169,6 +169,7 @@ This project is pre-configured for automated Vercel deployment:
 ## 🧪 Academic Curriculum Compliance: Flutter Lab Experiments (1 to 10)
 
 > **Curriculum Reference**: Marco L. Napoli, *Beginning Flutter: A Hands-on Guide to App Development*.  
+<<<<<<< HEAD
 > **Course**: Mobile Application Development Lab (Flutter & Dart)  
 > This project satisfies **100%** of all 10 experimental requirements, with individual git commits and verified screenshots for every experiment.
 
@@ -393,6 +394,61 @@ This project is pre-configured for automated Vercel deployment:
 ## 📄 License & Course Attribution
 - **Application**: Rathnaveri Kavitha Official Fan Page (RK Fans)
 - **Course**: Mobile Application Development Lab (Flutter & Dart)
+=======
+> This application fulfills **100%** of all 10 experimental requirements in the official Flutter Lab curriculum.
+
+| Exp # | Curriculum Topic | Implementation File(s) | Concepts & Key Flutter APIs |
+|:---:|:---|:---|:---|
+| **1a** | Install Flutter & Dart SDK | Global environment / `pubspec.yaml` | Flutter 3.x, Dart 3.x, environment sdk constraint `^3.0.0` |
+| **1b** | Simple Dart Program (Language Basics) | [`bin/dart_basics.dart`](file:///d:/project/fan_page/bin/dart_basics.dart) | Variables (`int`, `String`, `double`, `bool`), Collections (`List`, `Map`), Control flow (`for-in`, `if`), OOP Class (`MemberPass`) & Methods |
+| **2a** | Core Flutter Widgets Exploration | [`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart)<br>[`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart) | `Text`, `Image.asset`, `Container`, `Card`, `Icon`, `Chip`, `CustomPaint`, `Divider` |
+| **2b** | Layout Structures (Row, Column, Stack) | [`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart)<br>[`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart) | `Row` (stats & headers), `Column` (vertical sections), `Stack` & `Positioned` (crest glow & badge overlays), `IndexedStack` (shell) |
+| **3a** | Responsive UI Design | [`lib/widgets/responsive_layout.dart`](file:///d:/project/fan_page/lib/widgets/responsive_layout.dart)<br>[`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart) | Adaptive Multi-column Grid (3 columns on desktop vs 2 on mobile), responsive aspect ratios |
+| **3b** | Media Queries & Breakpoints | [`lib/widgets/responsive_layout.dart`](file:///d:/project/fan_page/lib/widgets/responsive_layout.dart) | `MediaQuery.of(context).size.width`, `LayoutBuilder`, Breakpoints: Mobile (`< 650px`), Tablet (`650 - 1000px`), Desktop (`> 1000px`) |
+| **4a** | Screen Navigation with Navigator | [`lib/main.dart`](file:///d:/project/fan_page/lib/main.dart)<br>[`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart) | `Navigator.push`, `Navigator.pop`, `showModalBottomSheet`, `showDialog` |
+| **4b** | Navigation with Named Routes | [`lib/main.dart`](file:///d:/project/fan_page/lib/main.dart)<br>[`lib/screens/experiments_hub_screen.dart`](file:///d:/project/fan_page/lib/screens/experiments_hub_screen.dart) | `MaterialApp(initialRoute: '/', routes: { ... })` with named paths (`/`, `/experiments`, `/api-feed`, `/fan-id`, `/community`, `/events`, `/journey`) |
+| **5a** | Stateful vs Stateless Widgets | [`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart)<br>[`lib/screens/fan_id_screen.dart`](file:///d:/project/fan_page/lib/screens/fan_id_screen.dart) | `StatelessWidget` for immutable presentation, `StatefulWidget` with `State<T>`, `initState()`, and `dispose()` |
+| **5b** | State Management (setState & Provider) | [`lib/providers/fan_provider.dart`](file:///d:/project/fan_page/lib/providers/fan_provider.dart)<br>[`lib/providers/theme_provider.dart`](file:///d:/project/fan_page/lib/providers/theme_provider.dart)<br>[`lib/providers/api_feed_provider.dart`](file:///d:/project/fan_page/lib/providers/api_feed_provider.dart) | Local `setState` for widget state, `ChangeNotifier`, `MultiProvider`, `Consumer<T>`, `context.watch<T>()`, and `context.read<T>()` |
+| **6a** | Custom Widgets for Specific Elements | [`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart) | `RKEmblemCrest` (mathematical vector crest), `DigitalMemberCardWidget` (metallic 3D card), `PulseCheerButton`, `ResponsiveLayout` |
+| **6b** | Styling with Themes & Custom Styles | [`lib/theme/app_theme.dart`](file:///d:/project/fan_page/lib/theme/app_theme.dart) | Material 3 `ThemeData.dark()` & `light()`, `ColorScheme`, custom `Outfit` typography, gradient borders & elevation |
+| **7a** | Form Design with Input Fields | [`lib/screens/fan_id_screen.dart`](file:///d:/project/fan_page/lib/screens/fan_id_screen.dart) | `Form`, `TextFormField` (Name, Phone), `DropdownButtonFormField` (District, Blood Group), selectable Chip tiers |
+| **7b** | Form Validation & Error Handling | [`lib/screens/fan_id_screen.dart`](file:///d:/project/fan_page/lib/screens/fan_id_screen.dart) | `GlobalKey<FormState>()`, `autovalidateMode`, regex phone validator (`^[6-9]\d{9}$`), regex name validator, `_formKey.currentState!.validate()`, SnackBar alerts |
+| **8a** | UI Animations Framework | [`lib/screens/experiments_hub_screen.dart`](file:///d:/project/fan_page/lib/screens/experiments_hub_screen.dart)<br>[`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart) | `AnimationController`, `SingleTickerProviderStateMixin`, `CurvedAnimation`, `Tween` |
+| **8b** | Animation Types (Fade, Slide, Scale) | [`lib/screens/experiments_hub_screen.dart`](file:///d:/project/fan_page/lib/screens/experiments_hub_screen.dart)<br>[`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart) | `FadeTransition` (alpha fade), `SlideTransition` (entry slide-up), `ScaleTransition` (pulsing cheer button) |
+| **9a** | Fetch Data from REST API | [`lib/services/api_service.dart`](file:///d:/project/fan_page/lib/services/api_service.dart)<br>[`lib/models/community_post.dart`](file:///d:/project/fan_page/lib/models/community_post.dart) | HTTP `http.get()` from REST endpoint (`https://jsonplaceholder.typicode.com/posts`), JSON decoding, model serialization |
+| **9b** | Meaningful UI Display of API Data | [`lib/screens/api_feed_screen.dart`](file:///d:/project/fan_page/lib/screens/api_feed_screen.dart)<br>[`lib/providers/api_feed_provider.dart`](file:///d:/project/fan_page/lib/providers/api_feed_provider.dart) | 3 UI States: Loading spinner, Error with Retry button, Success with `RefreshIndicator` (Pull-to-Refresh), live search filter & badges |
+| **10a** | Unit Tests for Components & State | [`test/unit/fan_models_test.dart`](file:///d:/project/fan_page/test/unit/fan_models_test.dart)<br>[`test/unit/fan_provider_test.dart`](file:///d:/project/fan_page/test/unit/fan_provider_test.dart)<br>[`test/unit/api_feed_test.dart`](file:///d:/project/fan_page/test/unit/api_feed_test.dart)<br>[`test/widget_test.dart`](file:///d:/project/fan_page/test/widget_test.dart) | Unit test suites for models, providers, REST API service, and widget test verifying navigation, digital ID card, and Hub |
+| **10b** | Debugging Tools & Error Resolution | [`lib/main.dart`](file:///d:/project/fan_page/lib/main.dart)<br>Project tooling | Flutter DevTools, Flutter Inspector, Debug Paint (`debugPaintSizeEnabled`), `debugShowCheckedModeBanner: false`, CLI log analysis |
+
+---
+
+## 🔍 How to Test Each Experiment
+
+1. **Exp 1b (Dart Basics)**:
+   ```bash
+   dart run bin/dart_basics.dart
+   ```
+2. **Exp 3 (Responsive Layout)**:
+   - Resize browser window or toggle DevTools Device Emulation. The Quick Action grid seamlessly transitions between 2 columns (mobile) and 3 columns (desktop).
+3. **Exp 4b (Named Routes)**:
+   - Tap the **🧪 Lab Experiments Hub** icon in the AppBar or Quick Action grid to navigate via named route `/experiments`.
+4. **Exp 7 (Forms & Validation)**:
+   - Open **Fan ID** tab. Clear the name or input an invalid phone number; notice the instantaneous inline regex error messages.
+5. **Exp 8 (Animations)**:
+   - Open **🧪 Lab Experiments Hub**; tap **Test** next to **E8: Animations** to trigger animated `FadeTransition` & `SlideTransition`.
+6. **Exp 9 (Live REST API)**:
+   - Tap the cloud icon in the AppBar or select **🌐 Live REST API** in Quick Actions. Observe the loading state, feed items, pull-to-refresh, and instant search filter.
+7. **Exp 10 (Unit & Widget Tests)**:
+   ```bash
+   flutter test
+   ```
+
+---
+
+## 📄 License & Attribution
+- **Application**: Rathnaveri Kavitha Official Fan Page (RK Fans)
+- **Course**: Flutter Application Development Lab
+>>>>>>> 1ddb38b15e573093a161116afbd908400ef6c3a8
 - **Textbook**: Marco L. Napoli, *Beginning Flutter: A Hands-on Guide to App Development*.  
 All rights reserved.
 
