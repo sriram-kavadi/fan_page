@@ -199,7 +199,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation File**: [`bin/dart_basics.dart`](file:///d:/project/fan_page/bin/dart_basics.dart)
 - **Screenshot / Terminal Output**:
   
-  ![Experiment 1: Dart Basics Screenshot](assets/screenshots/exp1_dart_basics.jpg)
+  ![Experiment 1: Dart Basics Screenshot](assets/screenshots/exp-1.jpg)
 
 - **Verification Command**:
   ```bash
@@ -227,7 +227,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation Files**: [`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart), [`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart)
 - **Screenshot / Layout Architecture**:
   
-  ![Experiment 2: Widgets & Layouts Screenshot](assets/screenshots/exp2_widgets_layouts.jpg)
+  ![Experiment 2: Widgets & Layouts Screenshot](assets/screenshots/exp-2.png)
 
 - **Key Flutter APIs**:
   - `Text`: Styled headings, italic quote banners, and stat counters.
@@ -244,7 +244,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation Files**: [`lib/widgets/responsive_layout.dart`](file:///d:/project/fan_page/lib/widgets/responsive_layout.dart), [`lib/screens/home_screen.dart`](file:///d:/project/fan_page/lib/screens/home_screen.dart)
 - **Screenshot / Responsive Multi-Device Showcase**:
   
-  ![Experiment 3: Responsive UI Screenshot](assets/screenshots/exp3_responsive_ui.jpg)
+  ![Experiment 3: Responsive UI Screenshot](assets/screenshots/exp-3.png)
 
 - **Breakpoints**:
   - Mobile: `< 650px` (Single column layout, bottom navigation bar)
@@ -258,9 +258,11 @@ This project is pre-configured for automated Vercel deployment:
 - **Curriculum Objective**: Set up navigation between different screens using `Navigator` and implement navigation with named routes.
 - **Git Commit**: `c088c71` - `feat(exp-4): Navigation between screens with Navigator & Named Routes`
 - **Implementation Files**: [`lib/main.dart`](file:///d:/project/fan_page/lib/main.dart), [`lib/screens/experiments_hub_screen.dart`](file:///d:/project/fan_page/lib/screens/experiments_hub_screen.dart)
-- **Screenshot / Navigation Flowchart**:
+- **Screenshots / Navigation & Routes**:
   
-  ![Experiment 4: Named Routes Screenshot](assets/screenshots/exp4_named_routes.jpg)
+  ![Experiment 4: Named Routes Screenshot 1](assets/screenshots/exp4-1.png)
+  
+  ![Experiment 4: App Screen Navigation Screenshot 2](assets/screenshots/exp4-2.png)
 
 - **Named Routes Table**:
   - `'/'`: Root `MainShell` with 5-destination `NavigationBar`
@@ -285,7 +287,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation Files**: [`lib/providers/fan_provider.dart`](file:///d:/project/fan_page/lib/providers/fan_provider.dart), [`lib/providers/theme_provider.dart`](file:///d:/project/fan_page/lib/providers/theme_provider.dart), [`lib/providers/api_feed_provider.dart`](file:///d:/project/fan_page/lib/providers/api_feed_provider.dart)
 - **Screenshot / State Management Architecture**:
   
-  ![Experiment 5: State Management Screenshot](assets/screenshots/exp5_state_mgmt.jpg)
+  ![Experiment 5: State Management Screenshot](assets/screenshots/exp5.png)
 
 - **State Patterns**:
   - `StatelessWidget`: `HomeScreen`, `_ImpactStatsRow`, `ResponsiveLayout`.
@@ -299,9 +301,11 @@ This project is pre-configured for automated Vercel deployment:
 - **Curriculum Objective**: Create custom widgets for specific UI elements and apply styling using themes and custom styles.
 - **Git Commit**: `d79592b` - `feat(exp-6): Custom widgets (RKEmblemCrest, DigitalMemberCardWidget) & Material 3 theming`
 - **Implementation Files**: [`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart), [`lib/theme/app_theme.dart`](file:///d:/project/fan_page/lib/theme/app_theme.dart)
-- **Screenshot / Custom Widgets & Theme Showcase**:
+- **Screenshots / Custom Widgets & Theme Showcase**:
   
-  ![Experiment 6: Custom Widgets Screenshot](assets/screenshots/exp6_custom_widgets.jpg)
+  ![Experiment 6: Custom Widgets Screenshot 1](assets/screenshots/exp6-1.png)
+  
+  ![Experiment 6: Theme Showcase Screenshot 2](assets/screenshots/exp6-2.png)
 
 - **Custom Widgets Created**:
   - `RKEmblemCrest`: Mathematical vector `CustomPainter` rendering a gold-rimmed laurel crest with the iconic RK monogram.
@@ -317,7 +321,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation File**: [`lib/screens/fan_id_screen.dart`](file:///d:/project/fan_page/lib/screens/fan_id_screen.dart)
 - **Screenshot / Validation & Error Handling**:
   
-  ![Experiment 7: Form Validation Screenshot](assets/screenshots/exp7_forms_validation.jpg)
+  ![Experiment 7: Form Validation Screenshot](assets/screenshots/exp7.png)
 
 - **Form Features**:
   - `Form` widget keyed with `GlobalKey<FormState>()`.
@@ -335,7 +339,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation Files**: [`lib/screens/experiments_hub_screen.dart`](file:///d:/project/fan_page/lib/screens/experiments_hub_screen.dart), [`lib/widgets/rk_widgets.dart`](file:///d:/project/fan_page/lib/widgets/rk_widgets.dart)
 - **Screenshot / Animation Framework Demonstration**:
   
-  ![Experiment 8: Animations Screenshot](assets/screenshots/exp8_animations.jpg)
+  ![Experiment 8: Animations Screenshot](assets/screenshots/exp-8.png)
 
 - **Animation Framework Implementation**:
   - `FadeTransition`: Opacity transition driving list entry using `CurvedAnimation(parent: _animCtrl, curve: Curves.easeIn)`.
@@ -350,7 +354,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation Files**: [`lib/services/api_service.dart`](file:///d:/project/fan_page/lib/services/api_service.dart), [`lib/models/community_post.dart`](file:///d:/project/fan_page/lib/models/community_post.dart), [`lib/providers/api_feed_provider.dart`](file:///d:/project/fan_page/lib/providers/api_feed_provider.dart), [`lib/screens/api_feed_screen.dart`](file:///d:/project/fan_page/lib/screens/api_feed_screen.dart)
 - **Screenshot / REST API Live Feed**:
   
-  ![Experiment 9: REST API Screenshot](assets/screenshots/exp9_rest_api.jpg)
+  ![Experiment 9: REST API Screenshot](assets/screenshots/exp-9.png)
 
 - **REST API Features**:
   - `http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts?_limit=15'))` with JSON deserialization.
@@ -367,7 +371,7 @@ This project is pre-configured for automated Vercel deployment:
 - **Implementation Files**: [`test/unit/`](file:///d:/project/fan_page/test/unit/), [`test/widget_test.dart`](file:///d:/project/fan_page/test/widget_test.dart)
 - **Screenshot / Test Suite & DevTools Inspector**:
   
-  ![Experiment 10: Testing & DevTools Screenshot](assets/screenshots/exp10_testing_devtools.jpg)
+  ![Experiment 10: Testing & DevTools Screenshot](assets/screenshots/exp-10.png)
 
 - **Test Suite Structure**:
   - `test/unit/fan_models_test.dart`: Unit tests for model properties, JSON serialization, and `copyWith`.
