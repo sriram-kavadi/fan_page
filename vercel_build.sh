@@ -5,7 +5,10 @@ echo "🚀 ==============================================="
 echo "🚀 Nikhil's Fantasy Studio - Vercel Build Script"
 echo "🚀 ==============================================="
 
-# 1. Install or update Flutter SDK
+# 1. Configure Git for CI environments
+git config --global --add safe.directory "*" || true
+
+# 2. Install or update Flutter SDK
 if [ ! -d "flutter" ]; then
   echo "📦 Cloning Flutter SDK (stable branch)..."
   git clone --depth 1 --branch stable https://github.com/flutter/flutter.git
