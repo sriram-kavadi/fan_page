@@ -48,6 +48,8 @@ class _FanIdScreenState extends State<FanIdScreen> {
     _selectedTier = fan.userCard.tier;
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     _nameCtrl.dispose();
@@ -55,8 +57,16 @@ class _FanIdScreenState extends State<FanIdScreen> {
     super.dispose();
   }
 
-  void _saveCard(FanProvider fan) {
-    if (_nameCtrl.text.trim().isEmpty) return;
+  bool _saveCard(FanProvider fan) {
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠️ Please correct validation errors before saving.'),
+          backgroundColor: RKTheme.primary,
+        ),
+      );
+      return false;
+    }
     fan.updateUserCard(
       name: _nameCtrl.text.trim(),
       district: _selectedDistrict,
@@ -66,10 +76,11 @@ class _FanIdScreenState extends State<FanIdScreen> {
     );
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('✨ Member Card details updated successfully!'),
+        content: Text('✨ Member Card details validated & updated successfully!'),
         backgroundColor: RKTheme.emerald,
       ),
     );
+    return true;
   }
 
   void _showDownloadSuccess(BuildContext context) {
@@ -201,9 +212,9 @@ class _FanIdScreenState extends State<FanIdScreen> {
 
             const SizedBox(height: 24),
 
-            // Personal Information Inputs
+            // Personal Information Inputs (Experiment 7: Form & Validation)
             Text(
-              'Card Details',
+              'Card Details (Form Validation)',
               style: TextStyle(
                 fontFamily: 'Outfit',
                 fontSize: 16,
@@ -213,59 +224,97 @@ class _FanIdScreenState extends State<FanIdScreen> {
             ),
             const SizedBox(height: 12),
 
-            // Name Field
-            TextField(
-              controller: _nameCtrl,
-              onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(
-                labelText: 'Member Full Name',
-                prefixIcon: Icon(Icons.person_outline),
-              ),
-            ),
-            const SizedBox(height: 14),
-
-            // Phone Field
-            TextField(
-              controller: _phoneCtrl,
-              onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(
-                labelText: 'Phone Number',
-                prefixIcon: Icon(Icons.phone_outlined),
-              ),
-            ),
-            const SizedBox(height: 14),
-
-            // District & Blood Group Row
-            Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedDistrict,
+            Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                children: [
+                  // Name Field
+                  TextFormField(
+                    controller: _nameCtrl,
+                    onChanged: (_) => setState(() {}),
                     decoration: const InputDecoration(
-                      labelText: 'District',
-                      prefixIcon: Icon(Icons.location_on_outlined),
+                      labelText: 'Member Full Name *',
+                      prefixIcon: Icon(Icons.person_outline),
+                      hintText: 'e.g. K. Vikram Reddy',
                     ),
-                    dropdownColor: isDark ? RKTheme.cardDark : Colors.white,
-                    items: _districts.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
-                    onChanged: (v) => setState(() => _selectedDistrict = v!),
+                    validator: (val) {
+                      if (val == null || val.trim().isEmpty) {
+                        return 'Member full name is required';
+                      }
+                      if (val.trim().length < 3) {
+                        return 'Name must be at least 3 characters';
+                      }
+                      if (!RegExp(r"^[a-zA-Z\s.'-]+$").hasMatch(val.trim())) {
+                        return 'Name should only contain letters & spaces';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedBlood,
+                  const SizedBox(height: 14),
+
+                  // Phone Field
+                  TextFormField(
+                    controller: _phoneCtrl,
+                    keyboardType: TextInputType.phone,
+                    onChanged: (_) => setState(() {}),
                     decoration: const InputDecoration(
-                      labelText: 'Blood',
-                      prefixIcon: Icon(Icons.bloodtype_outlined),
+                      labelText: 'Phone Number (10 Digits) *',
+                      prefixIcon: Icon(Icons.phone_outlined),
+                      hintText: 'e.g. 9848012345',
                     ),
-                    dropdownColor: isDark ? RKTheme.cardDark : Colors.white,
-                    items: _bloodGroups.map((b) => DropdownMenuItem(value: b, child: Text(b))).toList(),
-                    onChanged: (v) => setState(() => _selectedBlood = v!),
+                    validator: (val) {
+                      if (val == null || val.trim().isEmpty) {
+                        return 'Phone number is required';
+                      }
+                      final digits = val.replaceAll(RegExp(r'\D'), '');
+                      if (digits.length != 10) {
+                        return 'Enter a 10-digit mobile number';
+                      }
+                      if (!RegExp(r'^[6-9]\d{9}$').hasMatch(digits)) {
+                        return 'Enter a valid Indian mobile number starting 6-9';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-              ],
+                  const SizedBox(height: 14),
+
+                  // District & Blood Group Row
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedDistrict,
+                          decoration: const InputDecoration(
+                            labelText: 'District',
+                            prefixIcon: Icon(Icons.location_on_outlined),
+                          ),
+                          dropdownColor: isDark ? RKTheme.cardDark : Colors.white,
+                          items: _districts.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
+                          onChanged: (v) => setState(() => _selectedDistrict = v!),
+                          validator: (v) => v == null ? 'Select district' : null,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedBlood,
+                          decoration: const InputDecoration(
+                            labelText: 'Blood',
+                            prefixIcon: Icon(Icons.bloodtype_outlined),
+                          ),
+                          dropdownColor: isDark ? RKTheme.cardDark : Colors.white,
+                          items: _bloodGroups.map((b) => DropdownMenuItem(value: b, child: Text(b))).toList(),
+                          onChanged: (v) => setState(() => _selectedBlood = v!),
+                          validator: (v) => v == null ? 'Select blood group' : null,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
 
             const SizedBox(height: 24),
@@ -289,8 +338,9 @@ class _FanIdScreenState extends State<FanIdScreen> {
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      _saveCard(fan);
-                      _showDownloadSuccess(context);
+                      if (_saveCard(fan)) {
+                        _showDownloadSuccess(context);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: RKTheme.primary,
